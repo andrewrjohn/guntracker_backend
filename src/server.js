@@ -1,11 +1,11 @@
 const express = require('express')
 const routers = require('./routers')
-const app = express()
 const bodyParser = require('body-parser');
 require('dotenv').config()
 require('./db')
 require('./models')
 
+const app = express()
 const {
     PORT
 } = process.env
