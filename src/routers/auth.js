@@ -3,6 +3,10 @@ const User = require('../models/User')
 const router = express.Router()
 const auth = require('../middleware/auth')
 const Token = require('../models/Token')
+const {
+    API_COOKIE_NAME,
+    API_MAX_AGE
+} = require("../constants/api")
 
 router.post('/auth/logout', auth, async (req, res) => {
     try {
@@ -19,7 +23,7 @@ router.post('/auth/logout', auth, async (req, res) => {
 
         // // Remove actual token
         await token.remove()
-        res.clearCookie('guntrackerapi2019')
+        res.clearCookie(API_COOKIE_NAME)
         res.sendStatus(200)
     } catch (err) {
         res.status(400).send({
@@ -76,8 +80,8 @@ router.post('/auth/register', async (req, res) => {
         try {
             const token = await newUser.newAuthToken()
 
-            res.cookie('guntrackerapi2019', token, {
-                maxAge: 31556952000
+            res.cookie(API_COOKIE_NAME, token, {
+                maxAge: API_MAX_AGE
             })
             res.send({
                 newUser,

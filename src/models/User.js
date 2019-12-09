@@ -2,6 +2,9 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken')
 const argon2 = require('argon2');
 const Token = require('./Token')
+const {
+  API_MAX_AGE
+} = require("../constants/api")
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
@@ -57,7 +60,7 @@ UserSchema.methods.newAuthToken = async function () {
   const token = jwt.sign({
     _id: user.id.toString()
   }, process.env.SECRET_KEY, {
-    expiresIn: '31556952000'
+    expiresIn: API_MAX_AGE
   })
 
   await Token.create({

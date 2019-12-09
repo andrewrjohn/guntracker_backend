@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 const User = require('./User')
+const {
+    API_MAX_AGE
+} = require("../constants/api")
 const Schema = mongoose.Schema;
 
 
@@ -21,25 +24,11 @@ const TokenSchema = new Schema({
     },
     issuedAt: {
         type: Date,
-        expires: yearFromNow(),
+        expires: new Date().getTime() + API_MAX_AGE,
         default: Date.now
     }
 
 })
-
-TokenSchema.methods.removeToken = async function (user) {
-    const token = this
-
-    // Remove token ref
-    const updatedUser = await new User(user)
-    updatedUser.tokens = updatedUser.tokens.filter((t) => t.token !== token.token)
-    console.log(updatedUser)
-    // await updatedUser.save()
-
-    // // Remove actual token
-    // await token.remove()
-
-}
 
 Token = mongoose.model('Token', TokenSchema)
 
