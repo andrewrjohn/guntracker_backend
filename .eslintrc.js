@@ -16,7 +16,7 @@ module.exports = {
         "quotes": ["error", "single"],
         "object-curly-newline": ["error", {
             multiline: true,
-            minProperties: 3,
+            minProperties: 4,
         }],
         "object-curly-spacing": ["error", "always"],
         "require-atomic-updates": "off",

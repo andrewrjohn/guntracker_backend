@@ -54,11 +54,7 @@ router.post('/auth/register', async (req, res) => {
     } = req.body;
     if (phone && password) {
         const _id = await User.generateId();
-        const newUser = new User({
-            _id,
-            phone,
-            password
-        });
+        const newUser = new User({ _id, phone, password });
         const userExists = await User.findOne({ phone }) ? true : false;
         if (userExists) {
             res.status(400);
