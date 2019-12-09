@@ -32,6 +32,6 @@ const GunSchema = new Schema({
     }
 });
 
-Gun = mongoose.model('Gun', GunSchema)
+const Gun = mongoose.model('Gun', GunSchema)
 
 module.exports = Gun;

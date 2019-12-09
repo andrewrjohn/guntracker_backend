@@ -1,16 +1,6 @@
 const mongoose = require('mongoose');
-const User = require('./User')
-const {
-    API_MAX_AGE
-} = require("../constants/api")
+const { API_MAX_AGE } = require('../constants/api')
 const Schema = mongoose.Schema;
-
-
-function yearFromNow() {
-    const time = new Date();
-    time.setTime(time.getTime() + 120000)
-    return time
-}
 
 const TokenSchema = new Schema({
     _id: {
@@ -30,6 +20,6 @@ const TokenSchema = new Schema({
 
 })
 
-Token = mongoose.model('Token', TokenSchema)
+const Token = mongoose.model('Token', TokenSchema)
 
 module.exports = Token;

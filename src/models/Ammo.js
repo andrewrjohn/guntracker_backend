@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const AmmoSchema = new Schema({
     ownerId: {
         type: String,
-        required: true,
+        required: true
     },
     manufacturer: {
         type: String,
@@ -30,6 +30,6 @@ const AmmoSchema = new Schema({
 
 });
 
-Ammo = mongoose.model('Ammo', AmmoSchema)
+const Ammo = mongoose.model('Ammo', AmmoSchema)
 
 module.exports = Ammo;

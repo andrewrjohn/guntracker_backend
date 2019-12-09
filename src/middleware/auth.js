@@ -3,13 +3,11 @@ const User = require('../models/User')
 
 const auth = async (req, res, next) => {
     try {
-        const token = req.header('Authorization').replace('Bearer', '').trim()
+        const token = await req.header('Authorization').replace('Bearer', '').trim()
 
         const decoded = jwt.verify(token, process.env.SECRET_KEY)
 
-        const user = await User.findOne({
-            _id: decoded._id,
-        }).
+        const user = await User.findOne({ _id: decoded._id, }).
         populate('tokens')
 
 
@@ -21,9 +19,7 @@ const auth = async (req, res, next) => {
             next()
         }
     } catch (error) {
-        res.status(401).send({
-            error: 'Must be authenticated'
-        })
+        res.status(401).send({ error: 'Must be authenticated' })
     }
 }
 

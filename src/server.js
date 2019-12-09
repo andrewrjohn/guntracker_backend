@@ -6,9 +6,7 @@ require('./db')
 require('./models')
 
 const app = express()
-const {
-    PORT
-} = process.env
+const { PORT } = process.env
 
 app.use(bodyParser.json())
 

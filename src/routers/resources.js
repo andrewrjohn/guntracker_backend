@@ -7,21 +7,17 @@ const Ammo = require('../models/Ammo')
 
 const route = '/:type(guns|ammo)'
 
-const ResourceModel = (req) => req.originalUrl.includes("guns") ? Gun : Ammo
+const ResourceModel = (req) => req.originalUrl.includes('guns') ? Gun : Ammo
 
 router.get(route, auth, async (req, res) => {
     const Resource = ResourceModel(req)
-    const resources = await Resource.find({
-        ownerId: req.user.id
-    })
+    const resources = await Resource.find({ ownerId: req.user.id })
 
     res.send(resources)
 })
 
 router.post(route, auth, async (req, res) => {
-    const params = Object.assign(req.body, {
-        ownerId: req.user.id
-    })
+    const params = Object.assign(req.body, { ownerId: req.user.id })
     const Resource = ResourceModel(req)
     const resource = new Resource(params)
 
@@ -35,16 +31,12 @@ router.post(route, auth, async (req, res) => {
 
 router.get(`${route}/:id`, [auth, resourceOwner], async (req, res) => {
     const Resource = ResourceModel(req)
-    res.send(await Resource.findOne({
-        _id: req.params.id
-    }))
+    res.send(await Resource.findOne({ _id: req.params.id }))
 })
 
 router.post(`${route}/:id`, [auth, resourceOwner], async (req, res) => {
     const Resource = ResourceModel(req)
-    let resource = await Resource.findOne({
-        _id: req.params.id
-    })
+    let resource = await Resource.findOne({ _id: req.params.id })
 
     try {
         resource = Object.assign(resource, req.body)
