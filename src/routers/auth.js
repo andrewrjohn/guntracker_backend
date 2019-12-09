@@ -30,28 +30,21 @@ router.get('/auth/profile', auth, async (req, res) => {
 });
 
 router.post('/auth/login', async (req, res) => {
-    const {
-        phone,
-        password
-    } = req.body;
+    const { phone, password } = req.body;
+
     try {
         const user = await User.validateCredentials(phone, password);
         const token = await user.newAuthToken();
 
-        res.send({
-            user,
-            token
-        });
+        res.send({ user, token });
     } catch (error) {
         res.status(400).send({ error: 'Invalid credentials' });
     }
 });
 
 router.post('/auth/register', async (req, res) => {
-    const {
-        phone,
-        password
-    } = req.body;
+    const { phone, password } = req.body;
+
     if (phone && password) {
         const _id = await User.generateId();
         const newUser = new User({ _id, phone, password });
