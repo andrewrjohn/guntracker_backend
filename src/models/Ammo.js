@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const User = require('./User');
 const Schema = mongoose.Schema;
 
 const AmmoSchema = new Schema({
@@ -28,8 +29,27 @@ const AmmoSchema = new Schema({
     },
     lastUsed: Date,
 
+}, { collection: 'ammo' });
+
+// Add the reference from the user document 
+AmmoSchema.post('save', async function () {
+    const ammo = this;
+    const owner = await User.findById(ammo.ownerId);
+
+    owner.ammo.push(ammo.id);
+
+    await owner.save();
 });
 
-const Ammo = mongoose.model('Ammo', AmmoSchema)
+// Remove the reference from the user document 
+AmmoSchema.pre('remove', async function () {
+    const ammo = this;
+    const owner = await User.findById(ammo.ownerId);
+
+   owner.ammo = owner.ammo.filter((a) => a.id !== ammo.id);
+   await owner.save();
+});
+
+const Ammo = mongoose.model('Ammo', AmmoSchema);
 
 module.exports = Ammo;
