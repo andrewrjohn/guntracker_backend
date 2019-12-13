@@ -5,7 +5,7 @@ const resourceOwner = async (req, res, next) => {
     const ResourceModel = req.originalUrl.includes('guns') ? Gun : Ammo;
     let resource = await ResourceModel.findOne({ _id: req.params.id });
 
-    if (!resource || resource.ownerId !== req.user.id) {
+    if (!resource || resource.ownerId !== req.user._id) {
         return res.sendStatus(404);
     }
 

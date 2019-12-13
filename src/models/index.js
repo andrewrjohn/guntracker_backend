@@ -1,4 +1,3 @@
-require('./Ammo')
-require('./Gun')
-require('./User')
-require('./Token')
+require('./Ammo');
+require('./Gun');
+require('./User');

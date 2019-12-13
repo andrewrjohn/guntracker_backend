@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const argon2 = require('argon2');
-const Token = require('./Token');
-const { API_MAX_AGE } = require('../constants/api');
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
@@ -22,10 +20,6 @@ const UserSchema = new Schema({
     required: [true, 'Password is required'],
     minlength: 6
   },
-  tokens: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Token'
-  }, ],
   guns: [{
     type: Schema.Types.ObjectId,
     ref: 'Gun'
@@ -52,19 +46,9 @@ UserSchema.set('toObject', {
   }
 });
 
-UserSchema.methods.newAuthToken = async function () {
+UserSchema.methods.getAuthToken = async function () {
   const user = this;
-  const tokenRefId = mongoose.Types.ObjectId();
-  const token = jwt.sign({ _id: user.id.toString() }, process.env.SECRET_KEY, { expiresIn: API_MAX_AGE });
-
-  await Token.create({
-    _id: tokenRefId,
-    token,
-    ownerId: user.id
-  });
-
-  user.tokens.push(tokenRefId);
-  await user.save();
+  const token = jwt.sign({ _id: user.id }, process.env.SECRET_KEY);
   return token;
 };
 

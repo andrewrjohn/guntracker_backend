@@ -12,14 +12,14 @@ const ResourceModel = (req) => req.originalUrl.includes('guns') ? Gun : Ammo;
 // Get all guns/ammo
 router.get(route, auth, async (req, res) => {
     const Resource = ResourceModel(req);
-    const resources = await Resource.find({ ownerId: req.user.id });
+    const resources = await Resource.find({ ownerId: req.user._id });
 
     res.send(resources);
 });
 
 // Add gun/ammo
 router.post(route, auth, async (req, res) => {
-    const params = Object.assign(req.body, { ownerId: req.user.id });
+    const params = Object.assign(req.body, { ownerId: req.user._id });
     const Resource = ResourceModel(req);
     const resource = new Resource(params);
 
