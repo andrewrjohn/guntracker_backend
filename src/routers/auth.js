@@ -23,7 +23,7 @@ router.post('/auth/forgotpassword', async (req, res) => {
 
         client.messages.create({
             body: `Follow this link to reset your password: ${resetPWLink}`,
-            from: '+17346294377',
+            from: '+17346294377', // This is from Twilio, won't work without a valid account SID and auth token
             to: process.env.TEST_PHONE_NUMBER // Make sure you set this
         }).then(() => {
             res.sendStatus(200);
