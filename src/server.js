@@ -12,4 +12,4 @@ app.use(bodyParser.json());
 
 app.use('/api/v1', routers);
 
-app.listen(PORT || 3000, () => console.log(`API server listening on port ${PORT || 3000} 🎉`));
+app.listen(PORT || 3000, () => console.log(`Backend server listening on port ${PORT || 3000} 🎉`));
